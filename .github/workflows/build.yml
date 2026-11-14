@@ -1,4 +1,3 @@
-```yaml
 name: Crear Widget Hora
 
 on:
@@ -47,4 +46,3 @@ jobs:
         with:
           files: installer/Widget_Hora_Setup.exe
           generate_release_notes: true
-```
