@@ -51,7 +51,7 @@ class ConfigApp:
         nb = ttk.Notebook(outer)
         nb.pack(fill="both", expand=True)
         self.tabs = {}
-        for key, title in (("loc", "Ubicación y clima"), ("look", "Apariencia"),
+        for key, title in (("loc", "Ubicación y clima"), ("look", "Apariencia"), ("shadow", "Sombra"),
                            ("pos", "Posición"), ("gen", "General")):
             f = ttk.Frame(nb, padding=14)
             nb.add(f, text=title)
@@ -59,6 +59,7 @@ class ConfigApp:
 
         self._tab_location(self.tabs["loc"])
         self._tab_look(self.tabs["look"])
+        self._tab_shadow(self.tabs["shadow"])
         self._tab_position(self.tabs["pos"])
         self._tab_general(self.tabs["gen"])
 
@@ -233,14 +234,6 @@ class ConfigApp:
         self.var("color")
         self.row(f, 5, "Color del texto", self.color_button(f, "color"))
 
-        self.var("shadow")
-        self.row(f, 6, "Sombra", ttk.Checkbutton(f, text="Activada", variable=self.v["shadow"]))
-        self.var("shadow_distance")
-        self.row(f, 7, "Distancia de la sombra", tk.Scale(f, from_=0, to=10, orient="horizontal", length=180,
-                                                          variable=self.v["shadow_distance"]))
-        self.var("shadow_color")
-        self.row(f, 8, "Color de la sombra", self.color_button(f, "shadow_color"))
-
         self.var("opacity")
         self.row(f, 9, "Opacidad (%)", tk.Scale(f, from_=20, to=100, orient="horizontal", length=180,
                                                 variable=self.v["opacity"]))
@@ -267,6 +260,27 @@ class ConfigApp:
         ttk.Checkbutton(opts, text="Mostrar clima", variable=self.v["show_weather"]).grid(row=1, column=1, sticky="w", padx=14)
         ttk.Checkbutton(opts, text="Mostrar ciudad", variable=self.v["show_city"]).grid(row=2, column=0, sticky="w")
         opts.grid(row=12, column=0, columnspan=3, sticky="w", pady=(8, 0))
+
+    # ------------------------------------------------------------ pestaña: sombra
+    def _tab_shadow(self, f):
+        self.var("shadow")
+        ttk.Checkbutton(f, text="Activar sombra", variable=self.v["shadow"]).grid(
+            row=0, column=0, columnspan=2, sticky="w", pady=4)
+
+        def scale(key, lo, hi):
+            self.var(key)
+            return tk.Scale(f, from_=lo, to=hi, orient="horizontal", length=240, variable=self.v[key])
+
+        self.row(f, 1, "Desplazamiento (px)", scale("shadow_distance", 0, 20))
+        self.row(f, 2, "Grosor (px)", scale("shadow_thickness", 0, 10))
+        self.row(f, 3, "Difuminado (0 = dura)", scale("shadow_blur", 0, 30))
+        self.row(f, 4, "Intensidad (%)", scale("shadow_opacity", 0, 100))
+        self.var("shadow_color")
+        self.row(f, 5, "Color de la sombra", self.color_button(f, "shadow_color"))
+        ttk.Label(f, text="Consejo: para una sombra suave y natural prueba Difuminado 6-10, Grosor 1-2 e "
+                          "Intensidad 70-90. Con Difuminado en 0 la sombra queda dura.",
+                  foreground="#555", wraplength=440, justify="left").grid(
+            row=6, column=0, columnspan=2, sticky="w", pady=14)
 
     # ------------------------------------------------------------ pestaña: posición
     def _tab_position(self, f):

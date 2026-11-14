@@ -5,7 +5,7 @@ Widget de escritorio para Windows 11 con **hora, fecha y clima**, pensado para u
 - Se instala sin permisos de administrador y **se inicia solo con Windows**.
 - No interfiere con el cambio de fondos de pantalla (se queda detrás de tus ventanas).
 - El clima usa la **ubicación de Windows** (con respaldo por IP) o la ciudad que elijas.
-- Aplicación de configuración aparte: fuente, tamaños, color, sombra, opacidad, alineación, posición, formato de fecha y más. Los cambios se aplican al instante.
+- Aplicación de configuración aparte: fuente, tamaños, color, sombra difuminada (desplazamiento, grosor, difuminado, intensidad y color), opacidad, alineación, posición, formato de fecha y más. Los cambios se aplican al instante.
 
 ## Descargar el instalador
 
@@ -25,7 +25,7 @@ PyInstaller crea `Widget Hora.exe` y `Widget Hora Config.exe`, e Inno Setup crea
 
 ## Compilar en tu PC (opcional)
 
-Requisitos: Python 3 (con "Add to PATH") e Inno Setup 6. Ejecuta `build.bat`;
+Requisitos: Python 3 (con "Add to PATH") e Inno Setup 6 (Pillow lo instala `build.bat`). Ejecuta `build.bat`;
 el instalador queda en `installer\Widget_Hora_Setup.exe`.
 
 ## Archivos
@@ -35,6 +35,7 @@ el instalador queda en `installer\Widget_Hora_Setup.exe`.
 | `widget.py` | El widget |
 | `config_app.py` | Ventana de configuración |
 | `common.py` | Código compartido (configuración, ubicación, clima) |
+| `render.py` | Dibujo del widget con sombra difuminada (Pillow + transparencia por píxel) |
 | `installer.iss` | Script del instalador (Inno Setup) |
 | `build.bat` | Compilación local |
 | `icon.ico`, `icon_config.ico` | Iconos |

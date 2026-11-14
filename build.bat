@@ -2,8 +2,8 @@
 setlocal
 cd /d "%~dp0"
 
-echo [1/4] Instalando PyInstaller...
-py -m pip install --upgrade pyinstaller || goto :error
+echo [1/4] Instalando PyInstaller y Pillow...
+py -m pip install --upgrade pyinstaller pillow || goto :error
 
 echo [2/4] Creando Widget Hora.exe...
 py -m PyInstaller --onefile --noconsole --clean --name "Widget Hora" --icon icon.ico widget.py || goto :error

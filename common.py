@@ -57,6 +57,9 @@ DEFAULTS = {
     "size_time": 66, "size_date": 20, "size_weather": 17,
     "color": "#FFFFFF",
     "shadow": True, "shadow_distance": 2, "shadow_color": "#101010",
+    "shadow_thickness": 1,        # grosor (px)
+    "shadow_blur": 6,             # difuminado (0 = sombra dura)
+    "shadow_opacity": 85,         # intensidad (%)
     "opacity": 100,
     "align": "left",              # left | center | right
     "show_date": True, "show_weather": True, "show_city": True,
@@ -69,7 +72,8 @@ DEFAULTS = {
 }
 
 LIMITS = {"size_time": (10, 300), "size_date": (8, 150), "size_weather": (8, 150),
-          "shadow_distance": (0, 20), "opacity": (20, 100), "margin": (0, 1000),
+          "shadow_distance": (0, 20), "shadow_thickness": (0, 10),
+          "shadow_blur": (0, 30), "shadow_opacity": (0, 100), "opacity": (20, 100), "margin": (0, 1000),
           "update_minutes": (5, 180), "x": (-10000, 20000), "y": (-10000, 20000)}
 
 DATE_FORMATS = ["largo", "corto", "medio", "numerico", "iso"]
@@ -119,6 +123,17 @@ def cfg_mtime():
         return os.path.getmtime(CFG_FILE)
     except OSError:
         return 0.0
+
+
+def log_error():
+    """Guarda el último error en %APPDATA%\\WidgetHora\\error.log (ayuda a diagnosticar)."""
+    try:
+        import traceback
+        os.makedirs(CFG_DIR, exist_ok=True)
+        with open(os.path.join(CFG_DIR, "error.log"), "a", encoding="utf-8") as f:
+            f.write(datetime.now().isoformat() + "\n" + traceback.format_exc() + "\n")
+    except Exception:
+        pass
 
 
 # ------------------------------------------------------------ formato
